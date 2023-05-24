@@ -1,0 +1,2 @@
+# skycastle
+SkyCastle NixOS Flakes
