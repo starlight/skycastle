@@ -5,7 +5,11 @@
   #options = {};
 
   config = {
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+    nixpkgs.config.allowUnfree = true;
 
     boot = {
       consoleLogLevel = 0;
@@ -19,6 +23,8 @@
     };
 
     environment.systemPackages = with pkgs; [
+      coreutils
+      duperemove
       git
       psmisc
       vim
@@ -36,7 +42,19 @@
       Storage=volatile
     '';
 
-    users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+    users = {
+      defaultUserShell = "/run/current-system/sw/bin/zsh";
+      mutableUsers = true;
+    };
+    systemd = {
+      tmpfiles.rules = [
+        "d /run/cache/ 1771 - users"
+        "d /var/config/ 1771 - users 26w"
+        "d /var/state/ 1771 - users 4w"
+        "e /var/tmp/ - - - 4w"
+      ];
+    };
+    security.pam.makeHomeDir.skelDirectory = "/etc/skel";
 
   };
 }
