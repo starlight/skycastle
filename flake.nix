@@ -4,6 +4,7 @@
   outputs = { self, nixpkgs }: {
     nixosModules = {
       base = ./modules/base.nix;
+      desktop = ./modules/desktop.nix;
       audio = ./modules/audio.nix;
     };
     templates.default = {
