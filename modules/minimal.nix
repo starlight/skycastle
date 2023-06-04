@@ -32,11 +32,16 @@
 
     networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-    services.haveged.enable = true;
-
-    services.journald.extraConfig = ''
+    services = {
+      haveged.enable = true;
+      journald.extraConfig = ''
       Storage=volatile
     '';
+      btrfs.autoScrub = {
+        enable = true;
+        fileSystems = [ "/" ];
+      };
+    };
 
     users = {
       defaultUserShell = "/run/current-system/sw/bin/zsh";
