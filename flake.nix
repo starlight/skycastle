@@ -15,8 +15,8 @@
     };
     templates.default = {
       path = ./templates/system;
-      description = "Skycastle system template";
-      welcomeText = "Skycastle system template applied";
+      description = "skycastle system template";
+      welcomeText = "skycastle system template applied";
     };
   };
 }

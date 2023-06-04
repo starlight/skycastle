@@ -24,7 +24,6 @@
       duperemove
       git
       psmisc
-      vim
       zsh
       compsize
     ];
