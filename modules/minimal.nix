@@ -26,6 +26,9 @@
         exec nixos-rebuild switch --flake /etc/nixos#skycastle $@
       '';
       skycastle-iso = writeShellScriptBin "skycastle-iso" ''
+        ISOTMP="$(mktemp -dq /var/tmp/skycastle-iso-XXXXXXXX)"
+        cd $ISOTMP
+        echo "generating image '$ISOTMP'"
         exec nix build github:starlight/skycastle#nixosConfigurations.install-iso.config.system.build.isoImage $@
       '';
     in [
