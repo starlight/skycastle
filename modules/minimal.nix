@@ -19,13 +19,20 @@
       tmp.useTmpfs = true;
     };
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with pkgs; 
+    let
+      skycastle-rebuild = writeShellScriptBin "skycastle-rebuild" ''
+        nix flake update /etc/nixos || exit 1
+        exec nixos-rebuild switch --flake /etc/nixos#skycastle
+      '';
+    in [
       coreutils
       duperemove
       git
       psmisc
       zsh
       compsize
+      skycastle-rebuild
     ];
 
     fileSystems."/".options = [ "compress=zstd" ];
