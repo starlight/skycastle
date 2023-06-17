@@ -25,6 +25,9 @@
         nix flake update /etc/nixos || exit 1
         exec nixos-rebuild switch --flake /etc/nixos#skycastle
       '';
+      skycastle-iso = writeShellScriptBin "skycastle-iso" ''
+        exec nix build github:starlight/skycastle#nixosConfigurations.install-iso.config.system.build.isoImage $@
+      '';
     in [
       coreutils
       duperemove
@@ -33,6 +36,7 @@
       zsh
       compsize
       skycastle-rebuild
+      skycastle-iso
     ];
 
     fileSystems."/".options = [ "compress=zstd" ];
