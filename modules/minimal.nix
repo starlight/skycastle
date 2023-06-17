@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./skycastle.nix ];
+  imports = [
+    ./skycastle.nix
+    ./zsh.nix
+  ];
   #options = {};
 
   config = {
@@ -24,7 +27,6 @@
       duperemove
       git
       psmisc
-      zsh
       compsize
     ];
 
@@ -43,10 +45,6 @@
       };
     };
 
-    users = {
-      defaultUserShell = "/run/current-system/sw/bin/zsh";
-      mutableUsers = true;
-    };
     systemd = {
       tmpfiles.rules = [
         "d /run/cache/ 1771 - users"
