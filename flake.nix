@@ -11,8 +11,10 @@
     };
 
     nixosModules = {
+      audio = ./modules/audio.nix;
       desktop = ./modules/desktop.nix;
       minimal = ./modules/minimal.nix;
+      skycastle = ./modules/skycastle.nix;
     };
 
     templates = let
