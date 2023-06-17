@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./install.nix ];
+  imports = [ ./skycastle.nix ];
   #options = {};
 
   config = {
@@ -19,27 +19,13 @@
       tmp.useTmpfs = true;
     };
 
-    environment.systemPackages = with pkgs; 
-    let
-      skycastle-rebuild = writeShellScriptBin "skycastle-rebuild" ''
-        nix flake update /etc/nixos || exit 1
-        exec nixos-rebuild switch --flake /etc/nixos#skycastle $@
-      '';
-      skycastle-iso = writeShellScriptBin "skycastle-iso" ''
-        ISOTMP="$(mktemp -dq /var/tmp/skycastle-iso-XXXXXXXX)"
-        cd $ISOTMP
-        echo "generating image '$ISOTMP'"
-        exec nix build github:starlight/skycastle#nixosConfigurations.install-iso.config.system.build.isoImage $@
-      '';
-    in [
+    environment.systemPackages = with pkgs; [
       coreutils
       duperemove
       git
       psmisc
       zsh
       compsize
-      skycastle-rebuild
-      skycastle-iso
     ];
 
     fileSystems."/".options = [ "compress=zstd" ];
