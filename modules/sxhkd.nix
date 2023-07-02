@@ -1,0 +1,89 @@
+{ config, pkgs, ... }:
+
+{
+  config = {
+    services.xserver.windowManager.bspwm.sxhkd.configFile = "/etc/sxhkdrc";
+    environment.systemPackages = with pkgs; [
+      sxhkd
+    ];
+    environment.etc.sxhkdrc = {
+      text = ''
+        # rofi applications menu
+        super + space
+          rofi -config /etc/rofi.rasi -show combi -normal-window
+
+        # terminal
+        super + Return
+          xterm &
+
+        # switch, move window
+        super + {_,shift + }{Left,Down,Up,Right}
+          bspc node -{f,s} {west,south,north,east}
+
+        # focus or move window to desktop
+        super + {_,shift + }{1-9,0}
+          bspc {desktop -f,node -d} '^{1-9,10}'
+
+        # move next/prev ws
+        super + {_,shift + }bracket{left,right}
+          bspc {desktop -f,node -d} {prev,next}.local
+
+        # rotate (PgUp/PgDn)
+        super + {Prior,Next}
+          bspc node @/ --rotate {-90,90}
+
+        # close window
+        super + q
+          bspc node -c
+
+        # logout, shutdown
+        #super + {shift,ctrl} + q
+        #  mate-session-save --{logout,shutdown}-dialog
+        super + ctrl + q
+          killall -9 bspwm
+
+        # monocle toggle
+        super + m
+          bspc desktop -l next
+
+        # tiled/pseudo-tiled mode
+        super + {_,shift + }t
+          bspc node -t {_,pseudo_}tiled
+
+        # floating/fullscreen mode
+        super + {_,shift + }f
+          bspc node -t {floating,fullscreen}
+
+        # screen/window/selection shot
+        #super + {_,shift +,ctrl +} + @Print
+        #  mate-screenshot {_,-wB -e shadow,-a}
+
+        # clear clipboard history
+        #super + shift + Insert
+        #  clipdel -d '^.*'
+
+        # music controls
+        XF86AudioRaiseVolume
+          ponymix increase 10
+
+        XF86AudioLowerVolume
+          ponymix decrease 10
+
+        XF86AudioMute
+          ponymix toggle
+
+        XF86AudioPrev
+          playerctl previous
+
+        XF86AudioNext
+          playerctl next
+
+        XF86AudioPlay
+          playerctl play-pause
+
+        XF86AudioStop
+          playerctl stop
+      '';
+    };
+  };
+}
