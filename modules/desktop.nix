@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./minimal.nix ./audio.nix ];
+  imports = [ ./minimal.nix ];
   #options = {};
 
   config = {

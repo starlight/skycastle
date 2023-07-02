@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  # imports = [];
+  imports = [ ./desktop.nix ];
   # options = {};
 
   config = {

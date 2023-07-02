@@ -28,8 +28,8 @@
       in [
         skycastle-generate-config
         skycastle-install
-        skycastle-rebuild
         skycastle-iso
+        skycastle-rebuild
       ];
 
     programs.vim.defaultEditor = true;
